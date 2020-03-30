@@ -7,6 +7,7 @@ import os
 import string
 import re
 import sys
+import json,requests
 
 def filepath(filespath):
     dirs = os.listdir(filespath)
@@ -31,6 +32,16 @@ def format_content(filenames):
                 words[word] = 1
     return words
 
+def translate(word):
+    """发出请求"""
+    url = 'http://translate.google.cn/translate_a/single?client=gtx&sl=en&tl=zh-CN&dt=t&q='
+    response = requests.get(url + word)
+    raw = json.loads(response.text)
+    if raw[0][0][0]:
+        return raw[0][0][0]
+    else:
+        return ' '
+
 if __name__ == "__main__":
     thepath = "E:\\win10下载\\python-3.8.2-docs-text\\"
     fnames =  filepath(thepath)
@@ -39,5 +50,8 @@ if __name__ == "__main__":
     words.sort(key=lambda k: k[1],reverse=True)
     with open('E:\\words.txt','w',encoding='utf-8') as f:
         for word in words:
-            f.write(str(word)+'\n')
+            if word[0]:
+                print(type(word))
+                fword = word[0]+str(word[1])+translate(word[0])
+                f.write(word[0]+str(word[1])+translate(word[0])+'\n')
         
