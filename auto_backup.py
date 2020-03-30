@@ -3,7 +3,7 @@ import time
 
 HOST = '192.168.0.213'
 user = 'admin'
-password = 'sanyou'
+password = 'admin@123'
 
 tn = Telnet(HOST)
 
